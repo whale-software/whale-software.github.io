@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐋</title>
+  <meta name="description" content="安静、简洁、自由的软件。" />
+  <link rel="icon" href="favicon.ico" />
+
+  <style>
+    :root {
+      --bg: #fbfbfb;
+      --text: #111;
+      --muted: #888;
+      --light: #f3f1ee;
+      --line: #e8e8e8;
+      --card: #fff;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 42px;
+      background: rgba(251, 251, 251, 0.72);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      opacity: 0;
+      animation: navIn 1s ease 0.6s both;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      color: #777;
+    }
+
+    .nav-links a {
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #111;
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fbfbfb;
+    }
+
+    .hero-inner {
+      text-align: center;
+      transform: translateY(-10px);
+      animation: fadeUp 1.2s ease both;
+    }
+
+    .logo {
+      font-size: 54px;
+      line-height: 1;
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+
+    .slogan {
+      height: 20px;
+      font-size: 12px;
+      letter-spacing: 0.58em;
+      color: #999;
+      margin-left: 0.58em;
+      user-select: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      white-space: nowrap;
+      font-weight: 400;
+    }
+
+    .slogan.hide {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .down {
+      position: absolute;
+      left: 50%;
+      bottom: 32px;
+      width: 28px;
+      height: 28px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: float 1.8s ease-in-out infinite;
+    }
+
+    .down::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #999;
+      border-bottom: 2px solid #999;
+      transform: rotate(45deg);
+    }
+
+    .section {
+      padding: 120px 24px;
+    }
+
+    .container {
+      width: min(1040px, 100%);
+      margin: 0 auto;
+    }
+
+    .intro {
+      max-width: 720px;
+      margin: 0 auto 76px;
+      text-align: center;
+    }
+
+    .intro h2 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 400;
+      letter-spacing: -0.06em;
+      margin-bottom: 22px;
+    }
+
+    .intro p {
+      font-size: 18px;
+      line-height: 1.95;
+      color: #777;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 32px;
+      min-height: 210px;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.035);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .icon {
+      font-size: 26px;
+      margin-bottom: 24px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: #777;
+    }
+
+    .products {
+      background: var(--light);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 18px;
+    }
+
+    .product-main {
+      min-height: 360px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 42px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .tag {
+      display: inline-block;
+      width: fit-content;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #f1eee9;
+      color: #6f675e;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .product-main h3 {
+      font-size: clamp(34px, 5vw, 52px);
+      font-weight: 400;
+      letter-spacing: -0.07em;
+      margin-bottom: 16px;
+    }
+
+    .product-main p {
+      max-width: 580px;
+      font-size: 17px;
+      line-height: 1.9;
+      color: #777;
+    }
+
+    .product-link {
+      width: fit-content;
+      margin-top: 28px;
+      font-size: 15px;
+      color: #222;
+      border-bottom: 1px solid #222;
+      padding-bottom: 3px;
+    }
+
+    .small-products {
+      display: grid;
+      gap: 18px;
+    }
+
+    .small-card {
+      min-height: 171px;
+    }
+
+    .muted-label {
+      color: #999;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .end {
+      padding: 130px 24px;
+      text-align: center;
+      background: #fbfbfb;
+    }
+
+    .end h2 {
+      font-size: clamp(30px, 5vw, 52px);
+      font-weight: 400;
+      letter-spacing: -0.06em;
+      margin-bottom: 22px;
+    }
+
+    .end p {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.95;
+      color: #777;
+    }
+
+    footer {
+      padding: 36px 24px;
+      border-top: 1px solid var(--line);
+      color: #999;
+      font-size: 13px;
+      text-align: center;
+      letter-spacing: 0.08em;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes navIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(7px);
+      }
+    }
+
+    @media (max-width: 800px) {
+      .nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .logo {
+        font-size: 48px;
+      }
+
+      .slogan {
+        font-size: 10px;
+        letter-spacing: 0.32em;
+        margin-left: 0.32em;
+      }
+
+      .cards,
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 86px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav-links">
+      <a href="#idea">理念</a>
+      <a href="#products">产品</a>
+      <a href="#future">以后</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="logo">🐋</div>
+      <div class="slogan" id="slogan"></div>
+    </div>
+
+    <a class="down" href="#idea" aria-label="向下滚动"></a>
+  </section>
+
+  <section class="section" id="idea">
+    <div class="container">
+      <div class="intro">
+        <h2>软件可以很安静。</h2>
+        <p>
+          不一定要复杂，不一定要堆满按钮。
+          好用的工具应该先让人专注，再自然地扩展。
+        </p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">✍️</div>
+          <h3>写作优先</h3>
+          <p>
+            从笔记、Markdown 和学习资料开始，让文字编辑变得轻快。
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🧩</div>
+          <h3>逐步扩展</h3>
+          <p>
+            一个产品做好之后，再连接文档、表格、幻灯片等更多能力。
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🕊️</div>
+          <h3>保持自由</h3>
+          <p>
+            文件应该属于使用者，工具也应该尽量简单、透明、可替代。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section products" id="products">
+    <div class="container">
+      <div class="intro">
+        <h2>现在，从笔记开始。</h2>
+        <p>
+          第一个产品不是终点，只是整个想法的第一步。
+        </p>
+      </div>
+
+      <div class="product-grid">
+        <div class="product-main">
+          <div>
+            <span class="tag">已经开始</span>
+            <h3>Whale Note</h3>
+            <p>
+              一个简洁的 Markdown 笔记工具，用来写文章、记算法、整理学习内容。
+              它先代替最常用的写作场景，以后再变得更完整。
+            </p>
+          </div>
+
+          <a class="product-link" href="#">了解更多</a>
+        </div>
+
+        <div class="small-products">
+          <div class="card small-card">
+            <div class="muted-label">以后可能会有</div>
+            <h3>幻灯片工具</h3>
+            <p>
+              用更简单的方式做课件和展示。
+            </p>
+          </div>
+
+          <div class="card small-card">
+            <div class="muted-label">更远一点</div>
+            <h3>统一工作区</h3>
+            <p>
+              文档、表格、幻灯片、笔记，尽量放进同一个安静的软件里。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="end" id="future">
+    <h2>不是只做一个软件。</h2>
+    <p>
+      真正想做的是一套属于自己的工具。
+      从小处开始，能写、能改、能扩展，最后变成一个更自由的工作空间。
+    </p>
+  </section>
+
+  <footer>
+    © 2026 · MADE QUIETLY
+  </footer>
+
+  <script>
+    const words = [
+      "A MINIMAL WRITING SPACE",
+      "QUIET TOOLS FOR CREATION",
+      "WRITE WITH LESS NOISE",
+      "BUILD YOUR OWN WORKFLOW",
+      "SIMPLE SOFTWARE FOR IDEAS"
+    ];
+
+    const slogan = document.getElementById("slogan");
+    let index = 0;
+
+    function render() {
+      slogan.textContent = `/* ${words[index]} */`;
+    }
+
+    function next() {
+      slogan.classList.add("hide");
+
+      setTimeout(() => {
+        index = (index + 1) % words.length;
+        render();
+        slogan.classList.remove("hide");
+      }, 350);
+    }
+
+    render();
+    setInterval(next, 2300);
+  </script>
+</body>
+</html>
